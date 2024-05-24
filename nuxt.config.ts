@@ -7,5 +7,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@element-plus/nuxt',
     '@pinia/nuxt',
-  ]
+  ],
+  css:[
+    '~/assets/css/style.css',
+  ],
 })

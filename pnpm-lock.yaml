@@ -7,6 +7,7 @@ specifiers:
   '@unocss/nuxt': ^0.60.3
   '@vueuse/core': ^10.9.0
   '@vueuse/nuxt': ^10.9.0
+  dayjs: ^1.11.11
   element-plus: ^2.7.3
   mysql2: ^3.9.7
   nuxt: ^3.11.2
@@ -17,6 +18,7 @@ specifiers:
 
 dependencies:
   '@pinia/nuxt': 0.5.1_vue@3.4.27
+  dayjs: 1.11.11
   mysql2: 3.9.7
   nuxt: 3.11.2_5l4egri7e2oubnjpyb6d3uilvy
   sequelize: 6.37.3_mysql2@3.9.7
@@ -3221,7 +3223,6 @@ packages:
 
   /dayjs/1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
-    dev: true
 
   /db0/0.1.4:
     resolution: {integrity: sha512-Ft6eCwONYxlwLjBXSJxw0t0RYtA5gW9mq8JfBXn9TtC0nDPlqePAhpv9v4g9aONBi6JI1OXHTKKkUYGd+BOrCA==}

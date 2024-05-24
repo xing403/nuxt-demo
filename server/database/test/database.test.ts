@@ -1,8 +1,14 @@
 import { describe, it } from 'vitest'
-import DB from '../'
+import db from '../'
+import { useFetch } from '@vueuse/core'
+
 
 describe.concurrent('database', () => {
   it('database connect', async ({ expect }) => {
-    expect(DB.instance).toBeTruthy()
+    expect(db.instance).toBeTruthy()
+  })
+  it('post find all', async ({ expect }) => {
+    const data = await useFetch('/api/posts/list')
+    expect(data).toMatchSnapshot()
   })
 })
