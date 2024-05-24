@@ -7,10 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "axios": "^1.7.2",
     "dayjs": "^1.11.11",
     "mysql2": "^3.9.7",
     "nuxt": "^3.11.2",

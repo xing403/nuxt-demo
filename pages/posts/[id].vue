@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import type { ResponseEntity } from '~/types/global';
 import type { Post } from '~/types/post';
 
 const router = useRoute()
 const path = computed(() => Array.isArray(router.params.id) ? router.params.id.join('/') : router.params.id)
 const post = ref<Post>()
 
-await useFetch(`/api/posts/detail`, {
+await fetchApi().get<ResponseEntity<Post>>(`/posts/detail`, {
   params: {
     postId: path.value
   }
 }).then(({ data }) => {
-  if (data.value?.code === 200) {
-    post.value = data.value?.data
-  }
+  post.value = data.data
 })
 
 </script>
