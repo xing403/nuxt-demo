@@ -21,7 +21,10 @@ PostEntity.init({
   postTitle: DataTypes.STRING,
   postContent: DataTypes.TEXT,
   postTags: DataTypes.STRING,
-  isDelete: DataTypes.STRING(1),
+  isDelete: {
+    type: DataTypes.STRING(1),
+    defaultValue: '0'
+  },
   createBy: DataTypes.STRING,
   updateBy: DataTypes.STRING
 }, {
@@ -30,6 +33,8 @@ PostEntity.init({
   createdAt: 'createTime',
   updatedAt: 'updateTime',
 })
+
+PostEntity.sync({ alter: true })
 
 export default PostEntity;
 
