@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { ResponseEntity } from '~/types/global';
 import type { Post } from '~/types/post';
 
 const page = ref(1)
@@ -20,19 +19,15 @@ const total = ref(0)
 const isLoading = ref(false)
 function getPostsList() {
   isLoading.value = true
-  fetchApi().get<ResponseEntity<{
-    rows: Post[],
-    count: number
-  }>>('/posts/list', {
+  useAsyncData('posts-list', () => $fetch('/api/posts/list', {
+    method: 'get',
     params: {
       page: page.value,
       pageSize: pageSize.value
     }
-  }).then(({ data }) => {
-
-    total.value = data.data?.count || 0
-
-    list.value.push(...(data.data?.rows || []))
+  })).then(({ data }) => {
+    total.value = data.value?.data?.count || 0
+    list.value.push(...(data.value?.data?.rows || []))
   }).finally(() => {
     page.value += 1
     if (list.value.length < total.value) {

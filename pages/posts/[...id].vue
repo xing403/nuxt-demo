@@ -1,18 +1,23 @@
 <script setup lang="ts">
-import type { ResponseEntity } from '~/types/global';
 import type { Post } from '~/types/post';
 
-const router = useRoute()
-const path = computed(() => Array.isArray(router.params.id) ? router.params.id.join('/') : router.params.id)
 const post = ref<Post>()
+const route = useRoute()
 
-await fetchApi().get<ResponseEntity<Post>>(`/posts/detail`, {
-  params: {
-    postId: path.value
+if (Array.isArray(route.params.id) && route.params.id.length === 1) {
+  const [id] = route.params.id
+  if (!isNaN(Number(id))) {
+    await useLazyAsyncData('posts-detail', () => $fetch('/api/posts/detail', {
+      params: {
+        postId: Number(id)
+      },
+    })).then(({ data }) => {
+      if (data.value?.code === 200) {
+        post.value = data.value?.data
+      }
+    })
   }
-}).then(({ data }) => {
-  post.value = data.data
-})
+}
 
 </script>
 
@@ -28,7 +33,7 @@ await fetchApi().get<ResponseEntity<Post>>(`/posts/detail`, {
             {{ tag }}
           </ElTag>
         </div>
-        <div>{{ formatTime(post?.createTime) }}</div>
+        <div>{{ formatTime(post?.createTime, 'YYYY-MM-DD HH:mm') }}</div>
       </div>
       <div mt-4>
         <PostContent :content="post?.postContent"></PostContent>
