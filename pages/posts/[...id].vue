@@ -1,7 +1,18 @@
 <script setup lang="ts">
 import type { Post } from '~/types/post';
 
-const post = ref<Post>()
+const post = ref<Post>({
+  postId: 0,
+  postContent: '',
+  createBy: '',
+  createTime: undefined,
+  postTags: '',
+  postTitle: '',
+  updateBy: '',
+  updateTime: '',
+  isDelete: '0',
+})
+const isNotFound = ref(false)
 const route = useRoute()
 
 if (Array.isArray(route.params.id) && route.params.id.length === 1) {
@@ -12,10 +23,15 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
         postId: Number(id)
       },
     })).then(({ data }) => {
-      if (data.value?.code === 200) {
-        post.value = data.value?.data
+      if (data.value === null) {
+      } else if (data.value?.code === 200 && data.value?.data) {
+        post.value = data.value.data
+      } else {
+        isNotFound.value = data.value.code === 404
       }
     })
+  } else {
+    isNotFound.value = true
   }
 }
 
@@ -23,9 +39,10 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
 
 <template>
   <div class="main-container">
-    <div class="post-container">
+    <NotFound v-if="isNotFound" />
+    <div v-else class="post-container">
       <div class="post-title">
-        {{ post?.postTitle }}
+        {{ post.postTitle }}
       </div>
       <div flex="~ row" gap-1 justify-between>
         <div v-if="post?.postTags" class="post-tags">
@@ -33,10 +50,10 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
             {{ tag }}
           </ElTag>
         </div>
-        <div>{{ formatTime(post?.createTime, 'YYYY-MM-DD HH:mm') }}</div>
+        <div>{{ formatTime(post.createTime, 'YYYY-MM-DD HH:mm') }}</div>
       </div>
       <div mt-4>
-        <PostContent :content="post?.postContent"></PostContent>
+        <PostContent v-model="post.postContent" />
       </div>
     </div>
   </div>
