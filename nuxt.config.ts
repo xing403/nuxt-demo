@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   css:[
-    '~/assets/css/style.css',
+    '~/assets/css/global.postcss',
+    '~/assets/css/post.theme.postcss',
   ],
 })

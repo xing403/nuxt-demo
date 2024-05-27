@@ -45,8 +45,8 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
         {{ post.postTitle }}
       </div>
       <div flex="~ row" gap-1 justify-between>
-        <div v-if="post?.postTags" class="post-tags">
-          <ElTag v-for="tag in post.postTags.split(',').filter(item => item != '')" :key="tag">
+        <div class="post-tags">
+          <ElTag v-for="tag in (post.postTags ?? '').split(',').filter(item => item != '')" :key="tag">
             {{ tag }}
           </ElTag>
         </div>
