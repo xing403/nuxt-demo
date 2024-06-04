@@ -68,6 +68,7 @@ function handleLogin() {
           userStore.token = data.value.data.token
           userStore.username = data.value.data.username
           ElMessage.success(data.value.message)
+          userStore.getUserInfo()
           useRouter().replace(redirect.value)
           localStorage.setItem('token', data.value.data.token)
         }

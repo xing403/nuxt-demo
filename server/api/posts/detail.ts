@@ -3,23 +3,17 @@ import type { ResponseEntity } from '~/types/global'
 import postModel from '../../database/modules/PostEntity'
 
 export default defineEventHandler(async (event): Promise<ResponseEntity<Post>> => {
-  const query = getQuery(event)
-  return await postModel.findByPk(Number(query.postId)).then((post) => {
-    if (post && post.isDelete === '0') {
+  const query = getQuery<{ postId: number }>(event)
+  return await postModel.findByPk(query.postId).then((data: Post | null) => {
+    if (data && data.isDelete === '0') {
       return {
         code: 200,
-        data: post as Post,
+        data: data,
         message: 'ok'
       }
     }
-    return {
-      code: 404,
-      message: '文章不存在'
-    }
+    throw createError({ statusCode: 404, statusMessage: '文章不不存在' })
   }).catch((e) => {
-    return {
-      code: 500,
-      message: e.message
-    }
+    throw createError({ statusCode: 500, statusMessage: e.message })
   })
 })

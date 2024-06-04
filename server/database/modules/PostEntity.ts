@@ -7,6 +7,12 @@ class PostEntity extends Model<InferAttributes<PostEntity>> {
   declare postTitle: string;
   declare postContent: string;
   declare postTags: string;
+  declare postViewer: number;
+  declare postComment: number;
+  declare postCollect: number;
+  declare postStar: number;
+  declare postCover: string;
+  declare postIsTop: string;
   declare isDelete: string;
   declare createBy: string;
   declare updateBy: string;
@@ -21,6 +27,27 @@ PostEntity.init({
   postTitle: DataTypes.STRING,
   postContent: DataTypes.TEXT,
   postTags: DataTypes.STRING,
+  postViewer: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  postComment: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  postCollect: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  postStar: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  postCover: DataTypes.STRING,
+  postIsTop: {
+    type: DataTypes.STRING(1),
+    defaultValue: '0'
+  },
   isDelete: {
     type: DataTypes.STRING(1),
     defaultValue: '0'
