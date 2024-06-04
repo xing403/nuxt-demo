@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import type { User } from '~/types/user'
 
 export const useUserStore = defineStore('user', () => {
-  const username = ref('')
-  const token = useLocalStorage('token', '', { deep: true })
+  const username = ref<string>()
+  const token = ref('')
   const info = ref<User>()
   const isLogin = computed(() => !!token.value)
 
@@ -16,6 +16,7 @@ export const useUserStore = defineStore('user', () => {
     }).then(({ data, error: _ }) => {
       if (data.value) {
         info.value = data.value
+        username.value = username.value != info.value.username ? info.value.username : username.value
       }
     })
   }
