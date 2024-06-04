@@ -10,33 +10,34 @@
           <span :class="[post.postCover ? 'w-600px' : 'w-820px']" h-4em line-clamp-3>
             {{ post.postContent }}
           </span>
-          <div flex="~ row" gap-2 my-1>
-            <el-descriptions :column="4">
-              <el-descriptions-item>
-                <template #label>
-                  <el-text>阅读量</el-text>
-                </template>
-                <el-text>{{ post.postViewer }}</el-text>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <el-text>收藏量</el-text>
-                </template>
-                <el-text>{{ post.postCollect }}</el-text>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <el-text>点赞量</el-text>
-                </template>
-                <el-text>{{ post.postStar }}</el-text>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <el-text>发布日期</el-text>
-                </template>
-                <el-text>{{ formatTime(post.createTime, 'YYYY-MM-DD') }}</el-text>
-              </el-descriptions-item>
-            </el-descriptions>
+          <div class="post-desc" flex="~ row" gap-2>
+            <div class="desc-item post-viewer">
+              <div class="label-class">
+                <span>阅读量</span>
+                <Icon name="carbon:view" />
+              </div>
+              <span>{{ post.postViewer }}</span>
+            </div>
+            <div class="desc-item post-collect">
+              <div class="label-class">
+                <span>收藏量</span>
+                <Icon name="mdi:bookmark-box-multiple-outline" />
+              </div>
+              <span>{{ post.postCollect }}</span>
+            </div>
+            <div class="desc-item post-star">
+              <div class="label-class">
+                <span>点赞量</span>
+                <Icon name="mdi:thumb-up-outline" />
+              </div>
+              <span>{{ post.postStar }}</span>
+            </div>
+            <div class="desc-item post-star">
+              <div class="label-class">
+                <span>发布日期</span>
+              </div>
+              <span>{{ formatTime(post.createTime, 'YYYY-MM-DD') }}</span>
+            </div>
           </div>
         </div>
       </NuxtLink>
@@ -96,6 +97,14 @@ function getPostsList() {
 
     .post-title {
       @apply text-xxl font-bold my-2;
+    }
+
+    .desc-item {
+      @apply flex items-center gap-2 text-gray text-sm my-2;
+
+      .label-class {
+        @apply flex items-center gap-0.5;
+      }
     }
   }
 }

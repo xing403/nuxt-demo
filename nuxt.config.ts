@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@element-plus/nuxt',
     '@pinia/nuxt',
+    'nuxt-icon'
   ],
   css:[
     '~/assets/css/global.postcss',

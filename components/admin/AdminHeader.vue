@@ -1,11 +1,11 @@
 <template>
-  <el-header></el-header>
+  <div>
+    admin header
+  </div>
 </template>
 
 <script lang="ts" setup>
 
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -4,7 +4,9 @@
       <admin-sidebar />
     </el-aside>
     <el-container>
-      <admin-header />
+      <el-header>
+        <admin-header />
+      </el-header>
       <el-main>
         <slot />
       </el-main>

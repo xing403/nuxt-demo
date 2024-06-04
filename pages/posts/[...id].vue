@@ -3,12 +3,18 @@ import type { Post } from '~/types/post';
 
 const post = ref<Post>({
   postId: 0,
-  postContent: '',
-  createBy: '',
-  createTime: undefined,
-  postTags: '',
   postTitle: '',
+  postContent: '',
+  postTags: '',
+  postCover: '',
+  postIsTop: '',
+  postViewer: 0,
+  postComment: 0,
+  postCollect: 0,
+  postStar: 0,
+  createTime: undefined,
   updateBy: '',
+  createBy: '',
   updateTime: '',
   isDelete: '0',
 })
@@ -44,13 +50,39 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
       <div class="post-title">
         {{ post.postTitle }}
       </div>
-      <div flex="~ row" gap-1 justify-between>
-        <div class="post-tags">
-          <ElTag v-for="tag in (post.postTags ?? '').split(',').filter(item => item != '')" :key="tag">
-            {{ tag }}
-          </ElTag>
+      <div class="post-tags">
+        <ElTag v-for="tag in (post.postTags ?? '').split(',').filter(item => item != '')" :key="tag">
+          {{ tag }}
+        </ElTag>
+      </div>
+      <div class="post-desc" flex="~ row" gap-2>
+        <div class="desc-item post-viewer">
+          <div class="label-class">
+            <span>阅读量</span>
+            <Icon name="carbon:view" />
+          </div>
+          <span>{{ post.postViewer }}</span>
         </div>
-        <div>{{ formatTime(post.createTime, 'YYYY-MM-DD HH:mm') }}</div>
+        <div class="desc-item post-collect">
+          <div class="label-class">
+            <span>收藏量</span>
+            <Icon name="mdi:bookmark-box-multiple-outline" />
+          </div>
+          <span>{{ post.postCollect }}</span>
+        </div>
+        <div class="desc-item post-star">
+          <div class="label-class">
+            <span>点赞量</span>
+            <Icon name="mdi:thumb-up-outline" />
+          </div>
+          <span>{{ post.postStar }}</span>
+        </div>
+        <div class="desc-item post-star">
+          <div class="label-class">
+            <span>发布日期</span>
+          </div>
+          <span>{{ formatTime(post.createTime, 'YYYY-MM-DD') }}</span>
+        </div>
       </div>
       <div mt-4>
         <PostContent v-model="post.postContent" />
@@ -69,6 +101,14 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
 
   .post-tags {
     @apply flex gap-1;
+  }
+
+  .desc-item {
+    @apply flex items-center gap-2 text-gray text-sm my-2;
+
+    .label-class {
+      @apply flex items-center gap-0.5;
+    }
   }
 }
 </style>
