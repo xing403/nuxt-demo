@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import securityConfig from '../config/security.config';
-import { dayjs } from 'element-plus';
 
 interface UserInfoType {
   userId: number
