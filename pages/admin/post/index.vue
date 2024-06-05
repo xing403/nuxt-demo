@@ -60,7 +60,7 @@ function currentChange(value: number) {
       limit: limit.value,
     },
   })
-
+  handleGetList()
 }
 function handleModify(postId: number) {
   router.push({

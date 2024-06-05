@@ -12,7 +12,13 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: '用户名或密码错误' })
 
   const token = tokenUtil.generateToken({ userId: user.userId, username: user.username, auth: user.auth })
-
+  setCookie(event, 'token', token, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+    sameSite: 'strict',
+    secure: true,
+  })
   return {
     code: 200,
     message: '登录成功',
