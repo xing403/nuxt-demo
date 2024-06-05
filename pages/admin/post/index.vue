@@ -10,8 +10,8 @@
       <el-table-column width="260" fixed="right" align="center">
         <template #default="{ row }">
           <el-button type="info" link>预览</el-button>
-          <el-button type="warning" link>编辑</el-button>
-          <el-button type="danger" link>删除</el-button>
+          <el-button type="warning" link @click="handleModify(row.postId)">编辑</el-button>
+          <el-button type="danger" link @click="handleDelete(row.postId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -40,15 +40,17 @@ const limit = ref(10)
 const list = ref<Post[]>([])
 const total = ref(0)
 
-useFetch('/api/admin/post/list', { method: 'get', params: { page: page.value, limit: limit.value }, headers: { 'Authorization': 'Bearer ' + userStore.token } }).then(({ error, data }) => {
-  if (error.value) {
-    return
-  }
-  if (data.value) {
-    list.value = data.value.data?.rows ?? []
-    total.value = data.value.data?.count ?? 0
-  }
-})
+function handleGetList() {
+  useFetch('/api/admin/post/list', { method: 'get', params: { page: page.value, limit: limit.value }, headers: { 'Authorization': 'Bearer ' + userStore.token } }).then(({ error, data }) => {
+    if (error.value) {
+      return
+    }
+    if (data.value) {
+      list.value = data.value.data?.rows ?? []
+      total.value = data.value.data?.count ?? 0
+    }
+  })
+}
 
 function currentChange(value: number) {
   router.replace({
@@ -60,6 +62,32 @@ function currentChange(value: number) {
   })
 
 }
+function handleModify(postId: number) {
+  router.push({
+    path: '/admin/post/write',
+    query: {
+      postId,
+    },
+  })
+}
+function handleDelete(postId: number) {
+  ElMessageBox.confirm('确定删除该文章吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    $fetch(`/api/admin/post/${postId}`, { method: 'delete', headers: { 'Authorization': `Bearer ${userStore.token}` } }).then((res) => {
+      if ((page.value - 1) * limit.value > total.value - 1)
+        page.value = page.value - 1
+      ElMessage.success(res.message)
+      handleGetList()
+    }).catch(() => {
+      console.dir('删除失败')
+    })
+  }).catch(() => { })
+}
+
+handleGetList()
 </script>
 
 <style></style>

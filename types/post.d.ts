@@ -1,17 +1,17 @@
 export interface Post {
-  postId: number;
+  postId?: number;
   postTitle: string;
   postContent: string;
-  postTags: string;
-  postViewer: number;
-  postComment: number;
-  postCollect: number;
-  postStar: number;
-  postCover: string;
-  postIsTop: string;
-  isDelete: string;
-  createBy: string;
-  updateBy: string;
+  postTags?: string;
+  postViewer?: number;
+  postComment?: number;
+  postCategory?: number;
+  postStar?: number;
+  postCover?: string;
+  postIsTop?: string;
+  isDelete?: string;
+  createBy?: string;
+  updateBy?: string;
   createTime?: string;
   updateTime?: string;
 }

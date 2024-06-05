@@ -8,10 +8,14 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@unocss/nuxt',
     '@vueuse/nuxt',
-    'nuxt-icon'
+    'nuxt-icon',
   ],
   css: [
     '~/assets/css/global.postcss',
     '~/assets/css/post.theme.postcss',
+    'mavon-editor/dist/css/index.css',
   ],
+  plugins: [
+    { src: '~/plugins/mavon-editor', mode: 'client' }
+  ]
 })

@@ -19,6 +19,9 @@ dependencies:
   markdown-it:
     specifier: ^14.1.0
     version: 14.1.0
+  mavon-editor:
+    specifier: ^3.0.1
+    version: 3.0.1
   mysql2:
     specifier: ^3.9.7
     version: 3.9.7
@@ -3291,6 +3294,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
+  /cssfilter@0.0.10:
+    resolution: {integrity: sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==}
+    dev: false
+
   /cssnano-preset-default@6.1.2(postcss@8.4.38):
     resolution: {integrity: sha512-1C0C+eNaeN8OcHQa193aRgYexyJtU8XwbdieEjClw+J9d94E41LwT6ivKH0WT+fYwYWB0Zp3I3IZ7tI/BbUbrg==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -4645,6 +4652,12 @@ packages:
       mdurl: 2.0.0
       punycode.js: 2.3.1
       uc.micro: 2.1.0
+    dev: false
+
+  /mavon-editor@3.0.1:
+    resolution: {integrity: sha512-973cYCwv+AB+fcecsU6Ua6UXATxDMaY0Q7QzKQ/GmRW1sg+3DolZDnCGXth7XHDgrmqKTO57N42fVYujt0wfFw==}
+    dependencies:
+      xss: 1.0.15
     dev: false
 
   /mdn-data@2.0.28:
@@ -7446,6 +7459,15 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+
+  /xss@1.0.15:
+    resolution: {integrity: sha512-FVdlVVC67WOIPvfOwhoMETV72f6GbW7aOabBC3WxN/oUdoEMDyLz4OgRv5/gck2ZeNqEQu+Tb0kloovXOfpYVg==}
+    engines: {node: '>= 0.10.0'}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
+      cssfilter: 0.0.10
+    dev: false
 
   /y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}

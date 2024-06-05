@@ -17,6 +17,7 @@
     "element-plus": "^2.7.3",
     "jsonwebtoken": "^9.0.2",
     "markdown-it": "^14.1.0",
+    "mavon-editor": "^3.0.1",
     "mysql2": "^3.9.7",
     "nuxt": "^3.11.2",
     "sequelize": "^6.37.3",

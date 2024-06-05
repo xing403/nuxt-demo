@@ -13,7 +13,12 @@ export const useUserStore = defineStore('user', () => {
       headers: {
         authorization: `Bearer ${token.value}`
       }
-    }).then(({ data, error: _ }) => {
+    }).then(({ data, error }) => {
+      if (error.value) {
+        token.value = ''
+        info.value = undefined
+        return
+      }
       if (data.value) {
         info.value = data.value
         username.value = username.value != info.value.username ? info.value.username : username.value
