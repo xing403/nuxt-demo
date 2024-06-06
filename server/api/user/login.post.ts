@@ -2,6 +2,7 @@ import { User } from "~/types/user"
 import userModel from '~/server/database/modules/UserEntity'
 import bcryptPassword from '~/server/utils/bcryptPassword'
 import tokenUtil from '~/server/utils/token'
+import securityConfig from '~/server/config/security.config'
 
 export default defineEventHandler(async (event) => {
   const query = await readBody<User>(event)
@@ -12,9 +13,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: '用户名或密码错误' })
 
   const token = tokenUtil.generateToken({ userId: user.userId, username: user.username, auth: user.auth })
-  setCookie(event, 'token', token, {
+  setCookie(event, 'authorization', token, {
     httpOnly: true,
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: securityConfig.jwt.expires,
+    path: '/',
+    sameSite: 'strict',
+    secure: true,
+  })
+  setCookie(event, 'username', user.username, {
+    httpOnly: true,
+    maxAge: securityConfig.jwt.expires,
     path: '/',
     sameSite: 'strict',
     secure: true,
@@ -22,10 +30,5 @@ export default defineEventHandler(async (event) => {
   return {
     code: 200,
     message: '登录成功',
-    data: {
-      token,
-      username: user.username,
-      id: user.userId
-    }
   }
 })

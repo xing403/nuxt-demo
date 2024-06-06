@@ -2,11 +2,11 @@ import tokenUtil from '~/server/utils/token'
 import userModel from '~/server/database/modules/UserEntity'
 
 export const getLoginUser = defineEventHandler(async (event) => {
-  const header = getRequestHeaders(event)
+  const token = getCookie(event, 'authorization')
 
-  if (!header['authorization'])
-    throw createError({ statusCode: 403, statusMessage: '无权限' })
-  const tokenInfo = await tokenUtil.verifyToken(header['authorization'])
+  if (!token)
+    throw createError({ statusCode: 401, statusMessage: '未登录' })
+  const tokenInfo = await tokenUtil.verifyToken(token)
 
   return {
     info: tokenInfo,

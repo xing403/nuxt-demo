@@ -2,6 +2,13 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const userStore = useUserStore()
   if (!userStore.isLogin && /^\/admin/.test(to.path)) {
-    return navigateTo(`/`)
+
+    return navigateTo({
+      path: '/login',
+      query: {
+        redirect: to.path,
+        ...to.query,
+      },
+    })
   }
 })

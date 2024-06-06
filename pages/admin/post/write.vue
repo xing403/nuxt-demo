@@ -56,6 +56,7 @@ const { postId } = useRoute().query
 useFetch<Post>(`/api/admin/post/${postId}`, { method: 'get', headers: { 'Authorization': `Bearer ${userStore.token}` } }).then(({ data, error }) => {
   if (error.value) {
     ElMessage.error(error.value.statusMessage)
+    router.push('/admin/post')
     return
   }
   if (data.value) {
