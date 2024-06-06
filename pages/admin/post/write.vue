@@ -20,7 +20,10 @@
             </el-select>
           </el-form-item>
           <el-form-item prop="postTags">
-            <el-select v-model="tags" multiple placeholder="文章标签" w-full>
+            <el-select v-model="tags" multiple w-full filterable allow-create default-first-option clearable
+              @change="handleChangePostTag" placeholder="请选择文章标签">
+              <el-option v-for="item in tagList" :key="item.tagId" :label="item.tagName"
+                :value="item.tagId as number" />
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -36,6 +39,7 @@
 <script lang="ts" setup>
 import type { Category } from '~/types/category';
 import type { Post } from '~/types/post';
+import type { Tag } from '~/types/tag';
 definePageMeta({
   middleware: ['login'],
   layout: 'admin'
@@ -57,6 +61,7 @@ const router = useRouter()
 const userStore = useUserStore()
 const { postId } = useRoute().query
 const categoryList = ref<Array<Category>>([])
+const tagList = ref<Array<Tag>>([])
 
 useFetch<Post>(`/api/admin/post/${postId}`, { method: 'get', headers: { 'Authorization': `Bearer ${userStore.token}` } }).then(({ data, error }) => {
   if (error.value) {
@@ -66,7 +71,7 @@ useFetch<Post>(`/api/admin/post/${postId}`, { method: 'get', headers: { 'Authori
   }
   if (data.value) {
     form.value = data.value
-    tags.value = data.value.postTags ? data.value.postTags.split(',').filter(item => item != '') : []
+    tags.value = data.value.postTags ? data.value.postTags.split(',').filter(item => item != '').map(item => Number(item)) : []
   }
 })
 
@@ -94,9 +99,25 @@ useFetch('/api/admin/category/all', { method: 'get' }).then(({ data }) => {
     categoryList.value = data.value.data as Category[]
   }
 })
+useFetch('/api/admin/tag/all', { method: 'get' }).then(({ data }) => {
+  if (data.value) {
+    tagList.value = data.value.data as Tag[]
+  }
+})
+
+function handleChangePostTag(tagName: Array<string | number>) {
+  tagName.map(item => {
+    if (typeof item === 'string') {
+      $fetch('/api/admin/tag/new', { method: 'post', body: { tagName: item } }).then(res => {
+        tagList.value.unshift({ tagName: item, tagId: res.data })
+      })
+    }
+  })
+
+}
+
 function handleChangePostCategory(categoryName: string | number) {
   if (typeof categoryName === 'string') {
-
     $fetch('/api/admin/category/new', { method: 'post', body: { categoryName: categoryName } }).then(res => {
       categoryList.value.unshift({ categoryName: categoryName, categoryId: res.data })
     })

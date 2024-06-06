@@ -62,9 +62,6 @@ function getPostsList() {
       pageSize: pageSize.value
     }
   }).then(({ data, error }) => {
-    if (error) {
-
-    }
     if (data.value) {
       total.value = data.value?.data?.count || 0
       list.value.push(...(data.value?.data?.rows || []))

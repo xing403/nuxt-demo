@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { Post } from '~/types/post';
+import type { Tag } from '~/types/tag';
 
 const post = ref<Post>({
   postTitle: '',
-  postContent: ''
+  postContent: '',
+  postTags: ''
 })
+const tags = ref<Tag[]>([])
+
 const userStore = useUserStore()
 const isNotFound = ref(false)
 const route = useRoute()
@@ -12,17 +16,19 @@ const route = useRoute()
 if (Array.isArray(route.params.id) && route.params.id.length === 1) {
   const [id] = route.params.id
   if (!isNaN(Number(id))) {
-    await useFetch('/api/posts/detail', {
-      params: {
-        postId: Number(id)
-      },
-    }).then(({ data, error }) => {
+    await useFetch('/api/posts/detail', { params: { postId: id } }).then(({ data, error }) => {
       if (error.value) {
         isNotFound.value = true
       }
 
       if (data.value?.data) {
         post.value = data.value.data
+      }
+    })
+
+    await useFetch('/api/tags/getTagNames', { method: 'get', params: { postId: id } }).then(({ data, error }) => {
+      if (data.value) {
+        tags.value = data.value.data as Tag[]
       }
     })
   } else {
@@ -45,9 +51,7 @@ if (Array.isArray(route.params.id) && route.params.id.length === 1) {
         </div>
       </div>
       <div class="post-tags">
-        <ElTag v-for="tag in (post.postTags ?? '').split(',').filter(item => item != '')" :key="tag">
-          {{ tag }}
-        </ElTag>
+        <ElTag v-for="tag in tags" :key="tag.tagId">{{ tag.tagName }}</ElTag>
       </div>
       <div class="post-desc" flex="~ row" gap-2>
         <div class="desc-item post-viewer">
