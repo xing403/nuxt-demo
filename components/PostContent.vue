@@ -1,14 +1,13 @@
 <template>
-  <div class="post-body" v-html="mdDom">
-  </div>
+  <ClientOnly>
+    <div class="post-body">
+      <mavon-editor class="z-1" v-model="model" w-full h-auto :editable="false" :toolbarsFlag="false" :subfield="false"
+        :boxShadow="false"  defaultOpen="preview" />
+    </div>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-import markdownIt from 'markdown-it'
-defineOptions({
-  name: "PostContent",
-});
-const md = new markdownIt()
-const model = defineModel<string>();
-const mdDom = md.render(model.value || "");
+const model = defineModel()
+
 </script>

@@ -9,6 +9,7 @@ class PostEntity extends Model<InferAttributes<PostEntity>> {
   declare postTags: string;
   declare postViewer: number;
   declare postComment: number;
+  declare postCollect: number;
   declare postCategory: number;
   declare postStar: number;
   declare postCover: string;
@@ -32,6 +33,10 @@ PostEntity.init({
     defaultValue: 0,
   },
   postComment: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  postCollect: {
     type: DataTypes.INTEGER,
     defaultValue: 0
   },

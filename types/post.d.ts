@@ -5,6 +5,7 @@ export interface Post {
   postTags?: string;
   postViewer?: number;
   postComment?: number;
+  postCollect?: number;
   postCategory?: number;
   postStar?: number;
   postCover?: string;

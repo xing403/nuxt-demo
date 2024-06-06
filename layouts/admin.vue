@@ -1,8 +1,10 @@
 <template>
   <el-container>
-    <el-aside width="200px">
-      <admin-sidebar />
-    </el-aside>
+    <el-affix>
+      <el-aside width="200px">
+        <admin-sidebar />
+      </el-aside>
+    </el-affix>
     <el-container>
       <el-header>
         <admin-header />

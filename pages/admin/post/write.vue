@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="20">
           <el-form-item prop="postTitle">
-            <el-input v-model="form.postTitle" />
+            <el-input v-model="form.postTitle" size="large" placeholder="请输入标题" />
           </el-form-item>
           <el-form-item prop="postContent">
             <Editor v-model="form.postContent" />
