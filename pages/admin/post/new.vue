@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" ref="formRef" :rules="rules" label-position="top" label-width="100px">
+    <el-form :model="form" ref="formRef" :rules="rules" label-position="top">
       <el-row :gutter="20">
         <el-col :span="20">
           <el-form-item prop="postTitle">
@@ -11,7 +11,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="postCategory" label="文章分类">
+          <el-form-item prop="postCategory">
             <el-select v-model="form.postCategory" w-full filterable allow-create default-first-option
               :value-on-clear="0" clearable @change="handleChangePostCategory" placeholder="请选择分类">
               <el-option label="未分组" :value="0" />
@@ -19,7 +19,7 @@
                 :value="item.categoryId as number"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="postTags" label="文章标签">
+          <el-form-item prop="postTags">
             <el-select v-model="tags" multiple w-full filterable allow-create default-first-option clearable
               @change="handleChangePostTag" placeholder="请选择文章标签">
               <el-option v-for="item in tagList" :key="item.tagId" :label="item.tagName"
@@ -30,7 +30,7 @@
             <el-switch v-model="form.postIsTop" active-value="1" inactive-value="0" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleConfirm">提交</el-button>
+            <el-button type="primary" @click="handleConfirm">发布</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,7 +51,9 @@ const form = ref<Post>({
   postTitle: '',
   postContent: '',
   postCover: '',
-  postIsTop: '0'
+  postCategory: 0,
+  postTags: '',
+  postIsTop: '0',
 })
 const formRef = ref()
 const tags = ref<Array<string | number>>([])
@@ -63,33 +65,19 @@ const rules = {
 }
 const router = useRouter()
 const userStore = useUserStore()
-const { postId } = useRoute().query
+
 const categoryList = ref<Array<Category>>([])
 const tagList = ref<Array<Tag>>([])
-
-useFetch<Post>(`/api/admin/post/${postId}`, { method: 'get', headers: { 'Authorization': `Bearer ${userStore.token}` } }).then(({ data, error }) => {
-  if (error.value) {
-    ElMessage.error(error.value.statusMessage)
-    router.push('/admin/post')
-    return
-  }
-  if (data.value) {
-    form.value = data.value
-    tags.value = data.value.postTags ? data.value.postTags.split(',').filter(item => item != '').map(item => Number(item)) : []
-  }
-})
 
 function handleConfirm() {
   form.value.postTags = tags.value.join(',')
   formRef.value && formRef.value.validate((valid: boolean) => {
     if (valid) {
-      $fetch('/api/admin/post/update', {
+      $fetch('/api/admin/post/new', {
         method: 'post',
-        body: form.value,
-        headers: { 'Authorization': `Bearer ${userStore.token}` }
+        body: form.value
       }).then((res) => {
-        console.log(res)
-        ElMessage.success('提交成功')
+        ElMessage.success('发布成功')
         setTimeout(() => {
           router.back()
         }, 200);
@@ -117,6 +105,7 @@ function handleChangePostTag(tagName: Array<string | number>) {
       })
     }
   })
+
 }
 
 function handleChangePostCategory(categoryName: string | number) {

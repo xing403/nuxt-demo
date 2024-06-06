@@ -1,8 +1,8 @@
-
-import { DataTypes, InferAttributes, Model } from 'sequelize';
+import { DataTypes, InferAttributes, Model, Optional } from 'sequelize';
 import db from '..';
+import { Post } from '~/types/post';
 
-class PostEntity extends Model<InferAttributes<PostEntity>> {
+class PostEntity extends Model<InferAttributes<PostEntity>, Optional<Post, 'postId'>> implements Post {
   declare postId: number;
   declare postTitle: string;
   declare postContent: string;

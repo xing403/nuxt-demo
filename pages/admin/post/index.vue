@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-descriptions>
+      <template #title>
+        <el-button type="primary" @click="$router.push('/admin/post/new')">新增文章</el-button>
+      </template>
+    </el-descriptions>
     <el-table :data="list" width="100%">
       <el-table-column prop="postId" label="ID" width="100" />
       <el-table-column prop="postTitle" label="标题" align="center" />
