@@ -12,6 +12,7 @@ export default defineEventHandler(async (event): Promise<ResponseEntity<{ rows: 
     limit: limit,
     offset: (page - 1) * limit,
     order: [
+      ['postIsTop', 'DESC'],
       ['createTime', 'DESC']
     ],
     where: {
