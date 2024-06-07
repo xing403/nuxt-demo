@@ -28,7 +28,6 @@
 <script lang="ts" setup>
 const userStore = useUserStore()
 const route = useRoute()
-console.log(route)
 </script>
 
 <style></style>

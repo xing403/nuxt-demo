@@ -88,7 +88,6 @@ function handleConfirm() {
         body: form.value,
         headers: { 'Authorization': `Bearer ${userStore.token}` }
       }).then((res) => {
-        console.log(res)
         ElMessage.success('提交成功')
         setTimeout(() => {
           router.back()

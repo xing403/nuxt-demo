@@ -8,7 +8,6 @@ export default defineEventHandler(async (event) => {
   const self = await getLoginUser(event)
   if (!self || !self.user)
     throw createError({ statusCode: 401, message: '请先登录' })
-  console.log("post.postId", post)
   const dbPost = await postModel.findOne({ where: { postId: post.postId, createBy: self.info.username, isDelete: '0' } })
 
   if (!dbPost)
